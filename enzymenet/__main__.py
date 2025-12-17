@@ -15,7 +15,7 @@ import tensorflow as tf
 tf.get_logger().setLevel("ERROR")
 
 
-def get_parser():
+def build_parser():
     parser = argparse.ArgumentParser(
         prog = "EC_Predictor",
         description = "This program is to predict EC number",
@@ -23,15 +23,19 @@ def get_parser():
     )
 
     parser.add_argument("fasta_file", help="Fasta file name", type=str)
-    
-    args = parser.parse_args()
-    
-    return args
+    parser.add_argument(
+        "--model",
+        default="model1",
+        help="Model name (default: model2)"
+    )
+    return parser
 
-if __name__=='__main__':
+def main(argv=None):
     # ユーザの入力が必要な変数
-    args = get_parser()
+    parser = build_parser()
+    args = parser.parse_args(argv)
     fasta_name = args.fasta_file
+    model_name = args.model
     origin_fasta_f = os.path.join(*["data", fasta_name])
 
     # ユーザ入力が不要な変数
@@ -45,7 +49,7 @@ if __name__=='__main__':
 
     fasta_dic_f = os.path.join(*["data", "name_seq_dic.pkl"])
     vocab_f = os.path.join(*["enzymenet","asset", "vocab_no_exAA_no_ClsEos.json"])
-    model_name="model2"
+
 
     outdir = os.path.join(*["result", "ec_number"])
     tfrecord_base = os.path.join(*[outdir, "{}", "batch_v"])
@@ -114,3 +118,6 @@ if __name__=='__main__':
 
     except AssertionError as err:
         print(err)
+
+if __name__=='__main__':
+    main()
