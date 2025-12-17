@@ -45,12 +45,13 @@ pred_batchsize = 128
 
 fasta_dic_f = os.path.join(*["..", "data", "name_seq_dic.pkl"])
 vocab_f = os.path.join(*["asset", "vocab_no_exAA_no_ClsEos.json"])
+model_name="model1"
 
 outdir = os.path.join(*["..", "result", "ec_number"])
 tfrecord_base = os.path.join(*[outdir, "{}", "batch_v"])
-config_base = os.path.join(*["..", "model", "{}", "{}_model_config.json"])
-weight_base = os.path.join(*["..", "model", "{}", "ckpt", "ckpt-{}"])
-lb_base = os.path.join(*["..", "model", "{}", "{}_label_pair.tsv"])
+config_base = os.path.join(*["..", "model", model_name, "{}", "{}_model_config.json"])
+weight_base = os.path.join(*["..", "model", model_name,"{}", "ckpt", "ckpt-{}"])
+lb_base = os.path.join(*["..", "model", model_name,"{}", "{}_label_pair.tsv"])
 pred_arg_base = os.path.join(*[outdir, "{}", "{}_arrange_pred.tsv"])
 separate_base = os.path.join(*[outdir, "EC{}_4d", "EC_1d_select.fasta"])
 final_output = os.path.join(*[outdir, "EC_predict_final_result.tsv"])
