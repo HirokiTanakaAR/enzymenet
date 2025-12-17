@@ -11,10 +11,10 @@ import pickle
 import pandas as pd
 
 import tensorflow as tf
-from modeling import EC_Predictor, transfer_model
-from efficient_layers import create_padding_mask
+from enzymenet.modeling import EC_Predictor, transfer_model
+from enzymenet.efficient_layers import create_padding_mask
 
-from utils import get_config, get_weight
+from enzymenet.utils import get_config, get_weight
 
 
 """
@@ -63,7 +63,7 @@ def build_model(tar_ec, config_dic):
         dummy_mask = dummy_mask[:, :, tf.newaxis]
 
         ## EC 1桁目モデルのコンパイルと層の分解
-        _ = ec_predictor(dummy_inp, False, dummy_mask)
+        _ = ec_predictor(dummy_inp, padding_mask=dummy_mask,training=False)
         layer_1st = ec_predictor.layers
         layer_2nd = layer_1st[2].layers[0:-1]
 
@@ -126,7 +126,7 @@ def run_predict(tar_ec, inps, config_base, weight_base, batch_size=128):
         for inp, name in ds:
             batch_num = tf.shape(inp)[0]
             padding_mask = create_padding_mask(inp, 0)
-            pred = ec_predictor(inp, False, padding_mask)
+            pred = ec_predictor(inp, training=False,padding_mask=padding_mask)
 
             to_ = from_ + batch_num
             preds = preds.scatter(tf.range(from_, to_), pred)

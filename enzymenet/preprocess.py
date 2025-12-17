@@ -14,7 +14,7 @@ from collections import OrderedDict
 import numpy as np
 from Bio import SeqIO
 
-import sequence_tokenizer as seq_tk
+import enzymenet.sequence_tokenizer as seq_tk
 
 
 ## tf.Example と互換のある tf.train.Feature に変換する関数(ショートカット)

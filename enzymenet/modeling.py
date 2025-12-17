@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import tensorflow as tf
-from efficient_layers import EmbeddingPostprocessor, ConvertImg_v3
-from resnet import ResNet50v2 #データ量等で適切なものを選択
-from iv_resnet import ResNet50v2 as iv_ResNet50v2
+from enzymenet.efficient_layers import EmbeddingPostprocessor, ConvertImg_v3
+from enzymenet.resnet import ResNet50v2 #データ量等で適切なものを選択
+from enzymenet.iv_resnet import ResNet50v2 as iv_ResNet50v2
 
 
 # 中間ベクトル抽出用 ResNet
@@ -30,11 +30,11 @@ class IV_model(tf.keras.models.Model):
         self.final_act = tf.keras.layers.Activation(out_act)
     
 
-    def call(self, inp, training, padding_mask):
-        x = self.emb(inp, training)
+    def call(self, inp, padding_mask,training):
+        x = self.emb(inp, training=training)
         x *= padding_mask
-        x = self.cvimg(x, training)
-        x, iv = self.resnet(x, training)
+        x = self.cvimg(x, training=training)
+        x, iv = self.resnet(x, training=training)
         output = self.final_act(x)
 
         return output, iv
@@ -65,11 +65,11 @@ class EC_Predictor(tf.keras.models.Model):
         self.final_act = tf.keras.layers.Activation(out_act)
     
 
-    def call(self, inp, training, padding_mask):
-        x = self.emb(inp, training)
+    def call(self, inp, padding_mask,training):
+        x = self.emb(inp, training=training)
         x *= padding_mask
-        x = self.cvimg(x, training)
-        x = self.resnet(x, training)
+        x = self.cvimg(x, training=training)
+        x = self.resnet(x, training=training)
         output = self.final_act(x)
 
         return output
