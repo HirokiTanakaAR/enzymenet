@@ -1,0 +1,11 @@
+name: enzyme
+channels:
+    - defaults
+    - conda-forge
+dependencies:
+    - python==3.7.4
+    - tensorflow
+    - biopython
+    - pandas
+    - numpy
+    - tqdm

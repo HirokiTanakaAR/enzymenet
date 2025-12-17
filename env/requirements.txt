@@ -1,5 +1,0 @@
-tensorflow
-biopython
-pandas
-numpy
-tqdm

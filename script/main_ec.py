@@ -9,6 +9,10 @@ from utils import create_dict, arrange_predict, separate_fasta, merge_pred_table
 from preprocess import run_preprocess
 from predict import run_predict
 
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+
+import tensorflow as tf
+tf.get_logger().setLevel("ERROR")
 
 
 def get_parser():
